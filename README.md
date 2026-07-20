@@ -77,7 +77,7 @@ volunteers, dispatches, analytics, and notifications are all live queries.
 ## Project Structure
 
 ```
-r_ai/
+ReServe_ai 
 ├── main.py            # FastAPI app — all routes
 ├── models.py           # SQLAlchemy ORM models
 ├── schemas.py           # Pydantic request/response schemas
@@ -101,7 +101,6 @@ r_ai/
 ### 1. Install dependencies
 
 ```bash
-cd r_ai
 python -m venv venv && source venv/bin/activate   # optional but recommended
 pip install -r requirements.txt
 ```

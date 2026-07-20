@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List, Optional
 import uuid
 
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
 
@@ -23,8 +22,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="frontend")
 
 app.add_middleware(
     CORSMiddleware,

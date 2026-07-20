@@ -421,6 +421,6 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse(
-        "project.html",
-        {"request": request}
+        request,
+        "project.html"
     )

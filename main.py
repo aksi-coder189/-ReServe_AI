@@ -2,6 +2,10 @@ from datetime import datetime
 from typing import List, Optional
 import uuid
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -12,9 +16,24 @@ from database import Base, engine, get_db
 from agents import parse_whatsapp_surplus, run_matching_agent, run_dispatch_agent
 from ml_model import predict_hotspot, NEIGHBORHOODS
 
-Base.metadata.create_all(bind=engine)
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="ReServe AI API", version="1.0.0")
+app = FastAPI(
+    title="ReServe AI API",
+    version="1.0.0"
+)
+
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
@@ -402,5 +421,8 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     }
 
 @app.get("/")
-def root():
-    return {"status": "ok", "service": "ReServe AI backend"}
+def home(request: Request):
+    return templates.TemplateResponse(
+        "project.html",
+        {"request": request}
+    )

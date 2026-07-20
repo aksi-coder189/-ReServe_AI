@@ -226,10 +226,12 @@
 
         // =========================================================================
         // BACKEND API LAYER — every value below is now fed by FastAPI + SQLite
-        // instead of hardcoded arrays. Change API_BASE if your backend runs
-        // somewhere other than 127.0.0.1:8000.
+        // instead of hardcoded arrays. API_BASE is left empty so requests go to
+        // the SAME origin that served this page — works automatically on
+        // localhost (uvicorn) AND on Render (https://reserve-ai.onrender.com),
+        // since main.py serves this file itself via Jinja2Templates.
         // =========================================================================
-        const API_BASE = 'http://127.0.0.1:8000';
+        const API_BASE = '';
 
         async function apiGet(path) {
             const res = await fetch(API_BASE + path);
